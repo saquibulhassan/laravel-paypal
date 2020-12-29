@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Paypal\PaypalClient;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 
 
@@ -13,13 +14,24 @@ class PaypalPaymentController extends Controller
         return view('paypalButton');
     }
 
-    public function createOrder($debug = true)
+    public function createOrder()
     {
         $request = new OrdersCreateRequest();
         $request->prefer('return=representation');
         $request->body = $this->buildRequestBody();
 
         $client   = (new PaypalClient)->client();
+        $response = $client->execute($request);
+
+        return response()->json($response->result);
+    }
+
+    public static function captureOrder($orderId)
+    {
+        $request = new OrdersCaptureRequest($orderId);
+
+        // 3. Call PayPal to capture an authorization
+        $client = (new PaypalClient)->client();
         $response = $client->execute($request);
 
         return response()->json($response);

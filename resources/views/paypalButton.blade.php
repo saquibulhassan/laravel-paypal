@@ -32,15 +32,15 @@
     <div id="paypal-button-container"></div>
 </div>
 
-{{--<script src="https://www.paypal.com/sdk/js?client-id=Ae8-yztQj7zBSp5c59vd6yvJirYxr2Wen3J7Cv2hUvY5vGqFfYLMpgpKnRraUuCPmwISwYXuEOnOHkug&currency=AUD&disable-funding=credit,card"></script>--}}
-<script src="https://www.paypal.com/sdk/js?client-id=Ae8-yztQj7zBSp5c59vd6yvJirYxr2Wen3J7Cv2hUvY5vGqFfYLMpgpKnRraUuCPmwISwYXuEOnOHkug&currency=AUD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=Ae8-yztQj7zBSp5c59vd6yvJirYxr2Wen3J7Cv2hUvY5vGqFfYLMpgpKnRraUuCPmwISwYXuEOnOHkug&currency=AUD&disable-funding=credit,card"></script>
+{{--<script src="https://www.paypal.com/sdk/js?client-id=Ae8-yztQj7zBSp5c59vd6yvJirYxr2Wen3J7Cv2hUvY5vGqFfYLMpgpKnRraUuCPmwISwYXuEOnOHkug&currency=AUD"></script>--}}
 <script>
     // Render the PayPal button into #paypal-button-container
     paypal.Buttons({
         // Call your server to set up the transaction
         createOrder: function (data, actions) {
-            return fetch('/create-order', {
-                method: 'post'
+            return fetch('/create/paypal/order', {
+                method: 'get'
             }).then(function (res) {
                 return res.json();
             }).then(function (orderData) {
@@ -49,8 +49,8 @@
         },
         // Call your server to finalize the transaction
         onApprove: function (data, actions) {
-            return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
-                method: 'post'
+            return fetch('/capture/paypal/order/' + data.orderID, {
+                method: 'get'
             }).then(function (res) {
                 return res.json();
             }).then(function (orderData) {

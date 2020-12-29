@@ -19,4 +19,5 @@ Route::get('/', function () {
 
 
 Route::get('paypal-button', [\App\Http\Controllers\PaypalPaymentController::class, 'index']);
-Route::get('create-order', [\App\Http\Controllers\PaypalPaymentController::class, 'createOrder']);
+Route::get('create/paypal/order', [\App\Http\Controllers\PaypalPaymentController::class, 'createOrder']);
+Route::get('capture/paypal/order/{order}', [\App\Http\Controllers\PaypalPaymentController::class, 'captureOrder']);
